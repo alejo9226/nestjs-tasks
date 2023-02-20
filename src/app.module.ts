@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Task } from 'src/tasks/task.entity';
 import { TasksModule } from './tasks/tasks.module';
 
 // decorators
@@ -13,7 +14,8 @@ import { TasksModule } from './tasks/tasks.module';
       username: 'postgres',
       password: 'postgres',
       database: 'task-management',
-      autoLoadEntities: true,
+//      autoLoadEntities: true,
+      entities: [Task],
       synchronize: true,
     }),
   ],

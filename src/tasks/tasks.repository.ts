@@ -1,14 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { CreateTaskDto } from 'src/tasks/dto/create-task.dto';
+import { GetTasksFilterDto } from 'src/tasks/dto/get-tasks-filter.dto';
+import { TaskStatus } from 'src/tasks/task-status.enum';
+import { DataSource, Repository } from 'typeorm';
 import { Task } from './task.entity';
 
-@Injectable()
-export class TaskRepository extends Repository<Task> {
+
+export class TasksRepository extends Repository<Task> {
   constructor(
     @InjectRepository(Task)
-    repository: Repository<Task>,
+    private tasksRepository: Repository<Task>,
   ) {
-    super(repository.target, repository.manager, repository.queryRunner);
+    super(
+      tasksRepository.target,
+      tasksRepository.manager,
+      tasksRepository.queryRunner,
+    );
+  }
+
+  async getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+    const query = this.createQueryBuilder('task');
+
+    const tasks = await query.getMany();
+
+    return tasks;
+  }
+
+  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    const { title, description } = createTaskDto;
+
+    const task = this.create({
+      title,
+      description,
+      status: TaskStatus.OPEN,
+    });
+
+    await this.save(task);
+
+    return task;
   }
 }
