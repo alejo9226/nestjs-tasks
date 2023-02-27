@@ -1,11 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTaskDto } from 'src/tasks/dto/create-task.dto';
 import { GetTasksFilterDto } from 'src/tasks/dto/get-tasks-filter.dto';
 import { TaskStatus } from 'src/tasks/task-status.enum';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Task } from './task.entity';
-
 
 export class TasksRepository extends Repository<Task> {
   constructor(

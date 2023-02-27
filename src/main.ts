@@ -13,7 +13,7 @@ async function bootstrap() {
 
   // whenever NESTJS encounter those validation decorators
   // it'll now execute validation pipes
-  app.useGlobalPipes(new ValidationPipe());
+  // app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(3000);
 }
