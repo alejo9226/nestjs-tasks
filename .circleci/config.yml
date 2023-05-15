@@ -33,7 +33,7 @@ jobs:
   Hello-World:
     docker:
       - image: cimg/base:2021.04
-      - auth:
+        auth:
           username: whatever
           password: $DOCKERHUB_PASSWORD
     steps:
