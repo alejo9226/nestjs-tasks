@@ -29,6 +29,43 @@ jobs:
       - run:
           name: Run tests
           command: npm test
+  # running commands on a basic image
+  Hello-World:
+    docker:
+      - image: cimg/base:2021.04
+      - auth:
+        username: whatever
+        password: $DOCKERHUB_PASSWORD
+    steps:
+      - run:
+        name: Saying Hello
+        command: |
+          echo 'Hello World'
+          echo 'This is the delivery pipeline'
+  Fetch-Code:
+    docker:
+      - image: cimg/base:2021.04
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout
+      - run:
+          name: Getting the Code
+          command: |
+            ls -al
+            echo '^^^Your repo files^^^'
+  Using-Node:
+    docker:
+      - image: cimg/node:17.2
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - run:
+          name: Running the Node Container
+          command: |
+            node -v
 
 workflows:
   # Below is the definition of your workflow.
@@ -40,3 +77,12 @@ workflows:
       - build-and-test
       # For running simple node tests, you could optionally use the node/test job from the orb to replicate and replace the job above in fewer lines.
       # - node/test
+  Example-Workflow:
+    jobs:
+      - Hello-World
+      - Fetch-Code:
+        requires:
+          - Hello-World
+      - Using-Node:
+        requires:
+          - Fetch-Code
