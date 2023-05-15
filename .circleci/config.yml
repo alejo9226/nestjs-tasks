@@ -34,14 +34,14 @@ jobs:
     docker:
       - image: cimg/base:2021.04
       - auth:
-        username: whatever
-        password: $DOCKERHUB_PASSWORD
+          username: whatever
+          password: $DOCKERHUB_PASSWORD
     steps:
       - run:
-        name: Saying Hello
-        command: |
-          echo 'Hello World'
-          echo 'This is the delivery pipeline'
+          name: Saying Hello
+          command: |
+            echo 'Hello World'
+            echo 'This is the delivery pipeline'
   Fetch-Code:
     docker:
       - image: cimg/base:2021.04
@@ -81,8 +81,8 @@ workflows:
     jobs:
       - Hello-World
       - Fetch-Code:
-        requires:
-          - Hello-World
+          requires:
+            - Hello-World
       - Using-Node:
-        requires:
-          - Fetch-Code
+          requires:
+            - Fetch-Code
