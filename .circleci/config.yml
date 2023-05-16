@@ -70,7 +70,7 @@ jobs:
       - run:
           name: Set up custom env vars
           command: echo 'export MY_ENV_VAR="FOO"' >> "$BASH_ENV"
-       - run:
+      - run:
           name: What was my custom environment variable?
           command: echo ${MY_ENV_VAR}
       - run:
