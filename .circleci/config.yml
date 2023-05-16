@@ -66,6 +66,19 @@ jobs:
           name: Running the Node Container
           command: |
             node -v
+            echo $CIRCLE_BRANCH 
+      - run:
+          name: Set up custom env vars
+          command: echo 'export MY_ENV_VAR="FOO"' >> "$BASH_ENV"
+       - run:
+          name: "What was my custom environment variable?"
+          command: echo ${MY_ENV_VAR}
+      - run:
+          name: "Print an env var stored in the Project"
+          command: echo ${PROJECT_ENV_VAR}
+      - run:
+          name: "Print an env var stored in a Context"
+          command: echo ${CONTEXT_ENV_VAR}
   Now-Complete:
     docker:
       - image: alpine:3.15
